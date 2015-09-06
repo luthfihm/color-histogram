@@ -11,11 +11,14 @@ public class CumulativeTable {
     int[] blue;
     float parameter;
 
-    public CumulativeTable(float parameter) {
+    public CumulativeTable(float parameter) throws Exception {
         red = new int[256];
         green = new int[256];
         blue = new int[256];
-        this.parameter = parameter;
+        if (parameter > 1f)
+        {
+            throw new Exception("Parameter can not be over than 1");
+        }
     }
 
     public void generateTable (RgbFreq rgbFreq) {
@@ -44,8 +47,7 @@ public class CumulativeTable {
         int series = 0;
         int size = redFreq.length;
         for (int i = 0;i < size;i++) {
-            float f = redFreq[i] * parameter;
-            series += Math.round(f);
+            series += redFreq[i];
             red[i] = series;
         }
         if (red[255] > 255) {
@@ -53,14 +55,17 @@ public class CumulativeTable {
                 red[i] = (red[i] * 255) / series;
             }
         }
+        for (int i = 0;i < size;i++) {
+            float f = red[i] * parameter;
+            red[i] = Math.round(f);
+        }
     }
 
     private void generateGreenTable (int[] greenFreq) {
         int series = 0;
         int size = greenFreq.length;
         for (int i = 0;i < size;i++) {
-            float f = greenFreq[i] * parameter;
-            series += Math.round(f);
+            series += greenFreq[i];
             green[i] = series;
         }
         if (green[255] > 255) {
@@ -68,20 +73,27 @@ public class CumulativeTable {
                 green[i] = (green[i] * 255) / series;
             }
         }
+        for (int i = 0;i < size;i++) {
+            float f = green[i] * parameter;
+            green[i] = Math.round(f);
+        }
     }
 
     private void generateBlueTable (int[] blueFreq) {
         int series = 0;
         int size = blueFreq.length;
         for (int i = 0;i < size;i++) {
-            float f = blueFreq[i] * parameter;
-            series += Math.round(f);
+            series += blueFreq[i];
             blue[i] = series;
         }
         if (blue[255] > 255) {
             for (int i = 0;i < size;i++) {
                 blue[i] = (blue[i] * 255) / series;
             }
+        }
+        for (int i = 0;i < size;i++) {
+            float f = blue[i] * parameter;
+            blue[i] = Math.round(f);
         }
     }
 }

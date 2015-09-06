@@ -40,8 +40,7 @@ public class Histogram {
         }
     }
 
-    public void generateCumulativeTable (float parameter)
-    {
+    public void generateCumulativeTable (float parameter) throws Exception {
         cumulativeTable = new CumulativeTable(parameter);
         cumulativeTable.generateTable(rgbFreq);
     }
